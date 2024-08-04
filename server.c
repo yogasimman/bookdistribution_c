@@ -9,8 +9,11 @@
 
 #include "socket.h"
 #include "read.h"
+#include "log.h"
+
 #define PORT 8080 
 #define BUFFER_SIZE 1024
+#define LOG_FILE "server.log"
 
 // Function to serve content based on URI
 void serve_content(int newsockfd, const char *uri) {
@@ -36,6 +39,7 @@ void serve_content(int newsockfd, const char *uri) {
                 "HTTP/1.0 500 INTERNAL SERVER ERROR\r\n"
                 "Content-Type: text/html\r\n\r\n"
                 "<html><body><h1>500 Internal Server Error</h1></body></html>");
+            log_error("Failed to read file");
         } else {
             snprintf(resp, sizeof(resp),
                 "HTTP/1.0 200 OK\r\n"
@@ -54,6 +58,7 @@ int main() {
     // Create, bind, and listen on the socket
     int sockfd = create_and_bind_socket(PORT);
     if (sockfd == -1) {
+        log_error("Failed to create and bind socket");
         return 1; // Exit if socket creation/binding failed
     }
 
@@ -66,15 +71,15 @@ int main() {
         int newsockfd = accept(sockfd, (struct sockaddr *)&client_addr, &client_addrlen);
 
         if (newsockfd < 0) {
-            perror("webserver (accept)");
+            log_error("webserver (accept)");
             continue;
         }
-        printf("Connection accepted\n");
+        log_message("INFO", "Connection accepted");
 
         // Read from the sockets
         int valread = read(newsockfd, buffer, BUFFER_SIZE);
         if (valread < 0) {
-            perror("webserver (read)");
+            log_error("webserver (read)");
             close(newsockfd);
             continue;
         }
@@ -82,12 +87,12 @@ int main() {
         // Read the request
         char method[BUFFER_SIZE], uri[BUFFER_SIZE], version[BUFFER_SIZE];
         sscanf(buffer, "%s %s %s", method, uri, version);
-        printf("[%s:%u] %s %s %s\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port), method, version, uri);
+        log_message("INFO", "[%s:%u] %s %s %s", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port), method, version, uri);
 
         // Serve content based on the requested URI
         serve_content(newsockfd, uri);
         close(newsockfd);
     }
-    
+
     return 0;
 }

@@ -1,36 +1,51 @@
-#include <errno.h>// for system error using perror() function
 #include <stdio.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
 #include <stdarg.h>
+#include <time.h>
+#include <string.h>
+#include <errno.h>
 
+#define BUFFER_SIZE 1024
 #define LOG_FILE "server.log"
 
-void log_message(const char *format, ...) {
-    FILE *log_file = fopen(LOG_FILE, "a"); // Open log file in append mode
-    if (log_file == NULL) {
-        perror("Failed to open log file");
-        return;
-    }
-
-    // Get the current time
+// Function to get current timestamp
+void get_timestamp(char *buffer, size_t buffer_size) {
     time_t now = time(NULL);
-    struct tm *tm_info = localtime(&now);
-    char timestamp[30];
-    strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", tm_info);
+    struct tm *t = localtime(&now);
+    strftime(buffer, buffer_size, "%Y-%m-%d %H:%M:%S", t);
+}
 
-    // Write the timestamp and the message to the log file
-    fprintf(log_file, "%s: ", timestamp);
-
+// Logging function with log level
+void log_message(const char *level, const char *format, ...) {
     va_list args;
     va_start(args, format);
-    vfprintf(log_file, format, args); // Use vfprintf to handle the variable arguments
-    va_end(args);
 
-    fprintf(log_file, "\n"); // Newline at the end of the log entry
-    fclose(log_file);
+    // Prepare the timestamp
+    char timestamp[BUFFER_SIZE];
+    get_timestamp(timestamp, sizeof(timestamp));
+
+    // Prepare the message
+    char message[BUFFER_SIZE * 2];
+    vsnprintf(message, sizeof(message), format, args);
+    
+    // Print to console
+    printf("%s [%s]: %s\n", timestamp, level, message);
+    
+    // Write to log file
+    FILE *log_file = fopen(LOG_FILE, "a");
+    if (log_file) {
+        fprintf(log_file, "%s [%s]: %s\n", timestamp, level, message);
+        fclose(log_file);
+    } else {
+        perror("Unable to open log file");
+    }
+
+    va_end(args);
+}
+
+// Error logging function with perror
+void log_error(const char *message) {
+    char error_message[BUFFER_SIZE];
+    snprintf(error_message, sizeof(error_message), "%s: %s", message, strerror(errno));
+    perror(message);
+    log_message("ERROR", error_message);
 }

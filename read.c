@@ -6,6 +6,7 @@
 #include <stdarg.h>
 
 #include "read.h" // Include the header file
+#include "log.h"
 
 #define BUFFER_SIZE 1024
 
@@ -13,7 +14,7 @@
 char* read_file(const char *path) {
     FILE *file = fopen(path, "r");
     if (file == NULL) {
-        perror("webserver (fopen)");
+        log_error("webserver (fopen)");
         return NULL;
     }
 
@@ -23,7 +24,7 @@ char* read_file(const char *path) {
 
     char *content = malloc(length + 1);
     if (content == NULL) {
-        perror("webserver (malloc)");
+        log_error("webserver (malloc)");
         fclose(file);
         return NULL;
     }
@@ -48,11 +49,12 @@ void serve_static_file(int newsockfd, const char *uri, const char *content_type)
                 "HTTP/1.0 404 NOT FOUND\r\n"
                 "Content-Type: text/html\r\n\r\n"
                 "<html><body><h1>404 Not Found</h1></body></html>");
+        log_error("Failed to read static file");
     } else {
         snprintf(resp, sizeof(resp),
                 "HTTP/1.0 200 OK\r\n"
                 "Content-Type: %s\r\n\r\n"
-                "%s", content_type, content); // Corrected here
+                "%s", content_type, content);
         free(content);
     }
     write(newsockfd, resp, strlen(resp));

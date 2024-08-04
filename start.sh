@@ -8,5 +8,7 @@ gcc -c -Wall -Wextra -Wshadow  -pedantic socket.c -o execution/socket.o
 
 gcc -c -Wall -Wextra -Wshadow  -pedantic read.c -o execution/read.o
 
-gcc -o execution/server execution/server.o execution/socket.o execution/read.o
+gcc -c -Wall -Wextra -Wshadow -pedantic log.c -o execution/log.o
+
+gcc -o execution/server execution/server.o execution/socket.o execution/read.o execution/log.o
 

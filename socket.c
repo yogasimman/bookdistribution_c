@@ -1,24 +1,26 @@
-#include <errno.h>// for system error using perror() function
+#include <errno.h>
 #include <stdio.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
 #include "socket.h"
+#include "log.h"
+
 // Function to create, bind, and listen on a socket
 int create_and_bind_socket(int port) {
     // Creating socket file descriptor
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1) {
-        perror("webserver (socket)");
+        log_error("webserver (socket)");
         return -1;
     }
-    printf("Socket created successfully\n");
+    log_message("INFO", "Socket created successfully");
 
-    //Set socket options to allow address reuse
+    // Set socket options to allow address reuse
     int opt = 1;
-    if(setsockopt(sockfd, SOL_SOCKET,SO_REUSEADDR,&opt,sizeof(opt))<0){
-        perror("webserver (setsockopt)");
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+        log_error("webserver (setsockopt)");
         close(sockfd);
         return -1;
     }
@@ -31,19 +33,19 @@ int create_and_bind_socket(int port) {
 
     // Bind the socket to the address
     if (bind(sockfd, (struct sockaddr*)&host_addr, sizeof(host_addr)) != 0) {
-        perror("webserver (bind)");
+        log_error("webserver (bind)");
         close(sockfd);
         return -1;
     }
-    printf("Socket successfully bound to address\n");
+    log_message("INFO", "Socket successfully bound to address");
 
     // Listen for incoming connections
     if (listen(sockfd, SOMAXCONN) != 0) {
-        perror("webserver (listen)");
+        log_error("webserver (listen)");
         close(sockfd);
         return -1;
     }
-    printf("Server listening for connections\n");
+    log_message("INFO", "Server listening for connections");
 
     return sockfd; // Return the socket file descriptor
 }
