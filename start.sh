@@ -1,3 +1,7 @@
+if [ ! -d "execution" ]; then
+    mkdir execution
+fi
+
 gcc -c -Wall -Wextra -Wshadow  -pedantic server.c -o execution/server.o
 #-Wnon-virtual-dtor for C++ 
 gcc -c -Wall -Wextra -Wshadow  -pedantic socket.c -o execution/socket.o
