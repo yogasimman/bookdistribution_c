@@ -4,6 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdarg.h>
+#include <sys/stat.h>
 
 #include "read.h" // Include the header file
 #include "log.h"
@@ -11,40 +12,40 @@
 #define BUFFER_SIZE 1024
 
 // Function to read file contents
-char* read_file(const char *path) {
-    FILE *file = fopen(path, "r");
+struct file_content read_file(const char *path) {
+    struct file_content result = {NULL, 0}; // Initialize the struct
+
+    FILE *file = fopen(path, "rb");  // Open in binary mode to handle images
     if (file == NULL) {
         log_error("webserver (fopen)");
-        return NULL;
+        return result;
     }
 
     fseek(file, 0, SEEK_END);
-    long length = ftell(file);
+    result.length = ftell(file);
     fseek(file, 0, SEEK_SET);
 
-    char *content = malloc(length + 1);
-    if (content == NULL) {
+    result.content = malloc(result.length);
+    if (result.content == NULL) {
         log_error("webserver (malloc)");
         fclose(file);
-        return NULL;
+        return result;
     }
 
-    fread(content, 1, length, file);
-    content[length] = '\0';
-
+    fread(result.content, 1, result.length, file);
     fclose(file);
-    return content;
+    return result;
 }
 
 void serve_static_file(int newsockfd, const char *uri, const char *content_type) {
     char filepath[BUFFER_SIZE];
-    char *content;
+    struct file_content file;
     char resp[BUFFER_SIZE * 10];
 
     snprintf(filepath, sizeof(filepath), "html%s", uri);
 
-    content = read_file(filepath);
-    if (content == NULL) {
+    file = read_file(filepath);
+    if (file.content == NULL) {
         snprintf(resp, sizeof(resp),
                 "HTTP/1.0 404 NOT FOUND\r\n"
                 "Content-Type: text/html\r\n\r\n"
@@ -53,9 +54,10 @@ void serve_static_file(int newsockfd, const char *uri, const char *content_type)
     } else {
         snprintf(resp, sizeof(resp),
                 "HTTP/1.0 200 OK\r\n"
-                "Content-Type: %s\r\n\r\n"
-                "%s", content_type, content);
-        free(content);
+                "Content-Type: %s\r\n"
+                "Content-Length: %zu\r\n\r\n", content_type, file.length);
+        write(newsockfd, resp, strlen(resp));
+        write(newsockfd, file.content, file.length);
+        free(file.content);
     }
-    write(newsockfd, resp, strlen(resp));
 }

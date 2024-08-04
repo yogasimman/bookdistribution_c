@@ -10,5 +10,7 @@ gcc -c -Wall -Wextra -Wshadow  -pedantic read.c -o execution/read.o
 
 gcc -c -Wall -Wextra -Wshadow -pedantic log.c -o execution/log.o
 
-gcc -o execution/server execution/server.o execution/socket.o execution/read.o execution/log.o
+gcc -c -Wall -Wextra -Wshadow -pedantic json.c -o execution/json.o
+
+gcc -o execution/server execution/server.o execution/socket.o execution/read.o execution/log.o execution/json.o
 
