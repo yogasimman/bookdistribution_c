@@ -4,7 +4,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
-#include "socket.c"
+#include "socket.h"
 
 #define PORT 8080 
 #define BUFFER_SIZE 1024
@@ -54,7 +54,7 @@ int main(){
         socklen_t client_addrlen = sizeof(client_addr);
 
         //Accepting incoming connections
-        int newsockfd = accept(sockfd,NULL,NULL);
+        int newsockfd = accept(sockfd,(struct sockaddr *)&client_addr,&client_addrlen);
 
         if(newsockfd < 0){
             perror("webserver (accept)");
