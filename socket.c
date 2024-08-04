@@ -4,7 +4,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
-
+#include "socket.h"
 // Function to create, bind, and listen on a socket
 int create_and_bind_socket(int port) {
     // Creating socket file descriptor
@@ -14,6 +14,14 @@ int create_and_bind_socket(int port) {
         return -1;
     }
     printf("Socket created successfully\n");
+
+    //Set socket options to allow address reuse
+    int opt = 1;
+    if(setsockopt(sockfd, SOL_SOCKET,SO_REUSEADDR,&opt,sizeof(opt))<0){
+        perror("webserver (setsockopt)");
+        close(sockfd);
+        return -1;
+    }
 
     // Creating the address to bind the socket to 
     struct sockaddr_in host_addr;
