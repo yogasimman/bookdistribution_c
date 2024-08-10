@@ -274,3 +274,33 @@
 2024-08-04 22:47:58 [INFO]: [127.0.0.1:44884] GET HTTP/1.1 /index.css
 2024-08-04 22:47:58 [INFO]: Connection accepted
 2024-08-04 22:47:58 [INFO]: [127.0.0.1:44890] GET HTTP/1.1 /index.js
+2024-08-10 19:00:15 [INFO]: Socket created successfully
+2024-08-10 19:00:15 [INFO]: Socket successfully bound to address
+2024-08-10 19:00:15 [INFO]: Server listening for connections
+2024-08-10 19:00:48 [INFO]: Connection accepted
+2024-08-10 19:00:49 [INFO]: [127.0.0.1:37660] GET HTTP/1.1 /
+2024-08-10 19:00:49 [INFO]: Connection accepted
+2024-08-10 19:00:49 [INFO]: [127.0.0.1:37666] GET HTTP/1.1 /index.css
+2024-08-10 19:00:49 [INFO]: Connection accepted
+2024-08-10 19:00:49 [INFO]: [127.0.0.1:37680] GET HTTP/1.1 /index.js
+2024-08-10 19:00:50 [INFO]: Connection accepted
+2024-08-10 19:00:50 [INFO]: [127.0.0.1:37684] GET HTTP/1.1 /index.js
+2024-08-10 19:04:25 [INFO]: Socket created successfully
+2024-08-10 19:04:25 [INFO]: Socket successfully bound to address
+2024-08-10 19:04:25 [INFO]: Server listening for connections
+2024-08-10 19:04:29 [INFO]: Connection accepted
+2024-08-10 19:04:29 [INFO]: [127.0.0.1:46032] GET HTTP/1.1 /login
+2024-08-10 19:04:29 [INFO]: Connection accepted
+2024-08-10 19:04:29 [INFO]: [127.0.0.1:46044] GET HTTP/1.1 /login.css
+2024-08-10 19:04:29 [INFO]: Connection accepted
+2024-08-10 19:04:29 [INFO]: [127.0.0.1:46052] GET HTTP/1.1 /images/login_default.png
+2024-08-10 19:04:29 [INFO]: Connection accepted
+2024-08-10 19:04:29 [INFO]: [127.0.0.1:46056] GET HTTP/1.1 /login.js
+2024-08-10 19:04:54 [INFO]: Connection accepted
+2024-08-10 19:04:54 [INFO]: [127.0.0.1:37362] GET HTTP/1.1 /login
+2024-08-10 19:04:54 [INFO]: Connection accepted
+2024-08-10 19:04:54 [INFO]: [127.0.0.1:37378] GET HTTP/1.1 /login.js
+2024-08-10 19:06:04 [INFO]: Connection accepted
+2024-08-10 19:06:04 [INFO]: [127.0.0.1:37334] GET HTTP/1.1 /login
+2024-08-10 19:06:04 [INFO]: Connection accepted
+2024-08-10 19:06:04 [INFO]: [127.0.0.1:37336] GET HTTP/1.1 /login.js

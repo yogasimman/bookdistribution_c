@@ -1,64 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background: #e0f7fa;
-    font-family: Arial, sans-serif;
+    font-family: 'Raleway', sans-serif;
+    background-color: rgba(9, 9, 14, 255);
+    color: rgba(203, 199, 195, 255);
 }
+
 .login-container {
-    background: #00796b;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 100%;
-}
-.login-container img {
-    display: block;
-    margin: 0 auto 1rem;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: solid 2px ;
-    border-color: black;
-    background-color: rgb(236, 233, 233);
-    padding: 5px;
-}
-.login-container input {
-    display: block;
-    width: calc(100% - 2rem);
-    margin: 0.5rem auto;
-    padding: 0.75rem;
-    border: none;
-    border-radius: 5px;
-}
-.login-container input[type="checkbox"] {
-    width: auto;
-    margin: 0.75rem 0;
-}
-.login-container button {
-    display: block;
-    width: 100%;
-    padding: 0.75rem;
-    background: #004d40;
-    border: none;
-    border-radius: 5px;
-    color: #ffffff;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 1rem;
-}
-.login-container .options {
     display: flex;
-    justify-content: space-between;
-    font-size: 0.875rem;
-    color: #b2dfdb;
+    position: fixed;
+    flex-direction: column;
+    justify-content: center;
+
+    width: 500px;
+    height: 400px;
+    margin: auto;
+    background-color: rgba(22, 22, 22, 255);
+    padding: 20px;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
 }
-@media (max-width: 768px) {
-    .login-container {
-        padding: 1rem;
-    }
+
+h3 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 1.3rem auto;
+    letter-spacing: 7px;
+}
+
+#username, #password {
+    display: block;
+    margin: 0 auto;
+    background-color: rgba(34, 34, 34, 255);
+    border: none;
+    height: 3rem;
+    width: 85%;
+    color: rgba(203, 199, 195, 255);
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+form label {
+    display: block;
+    margin-left: 37px;
+    margin-right: auto;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+#username::placeholder, #password::placeholder {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#username:focus,#password:focus{
+    outline: 2px solid rgba(214,186,254,255);
+}
+
+.click_button {
+    font-family: 'Raleway', sans-serif;
+    width: 85%;
+    height: 3rem;
+    display: block;
+    margin: 20px auto 35px auto;
+    border-radius: 5px;
+    text-align: center;
+    box-sizing: border-box;
+    text-transform: uppercase;
+    font-size: 18px;
+    background-color: rgba(34, 34, 34, 255);
+    color: rgba(203, 199, 195, 255);
+    border: none;
+    cursor: pointer;
+}
+
+.click_button:hover{
+    background-color: rgba(214,186,254,255);
+    color: rgba(34, 34, 34, 255);
 }
